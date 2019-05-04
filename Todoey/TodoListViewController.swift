@@ -70,16 +70,6 @@ class TodoListViewController: UITableViewController {
             alertTextField.placeholder = "Create New Item"
             textField = alertTextField
         }
-        
-        // make alert window dark grey
-//        if let firstSubview = alert.view.subviews.first, let alertContentView = firstSubview.subviews.first {
-//            for view in alertContentView.subviews {
-//                view.backgroundColor = .darkGray
-//            }
-//        }
-//        alert.setValue(NSAttributedString(string: "Add New To-Do Item", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white]), forKey: "attributedTitle")
-//        alert.view.tintColor = .white
-//        alert.message.colour
 
         present(alert, animated: true, completion: nil)
     }
