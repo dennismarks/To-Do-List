@@ -10,10 +10,19 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    var itemArray = ["find mike", "buy eggs"]
+    var itemArray : [String] = []
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        defaults.removeObject(forKey: "TodoItemArray")
+//        UserDefaults.standard.synchronize()
+        
+        if let items = defaults.array(forKey: "TodoItemArray") as? [String] {
+            itemArray = items
+        }
     }
     
     // MARK - TableView Datasource Methods
@@ -48,6 +57,7 @@ class TodoListViewController: UITableViewController {
         let actionAdd = UIAlertAction(title: "Add Item", style: .default) { (action) in
             print("Success")
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoItemArray")
             self.tableView.reloadData()
         }
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -74,4 +84,3 @@ class TodoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
 }
-
