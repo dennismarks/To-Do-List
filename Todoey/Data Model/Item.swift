@@ -8,7 +8,9 @@
 
 import Foundation
 
-class Item {
+
+// Encodable - class can be encoded into plist or json; all properties must have standart data types
+class Item: Codable {
     
     var title: String = ""
     var done: Bool = false
