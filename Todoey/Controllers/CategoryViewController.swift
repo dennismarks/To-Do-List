@@ -19,7 +19,7 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadItems()
-//        setUpSearchController()
+        setUpSearchController()
     }
 
     // MARK: - Table view data source
@@ -102,36 +102,36 @@ class CategoryViewController: UITableViewController {
 }
 
 
-//extension CategoryViewController: UISearchResultsUpdating {
-//
-//    func setUpSearchController() {
-//        navigationItem.searchController = searchController
-//        searchController.searchBar.delegate = self as? UISearchBarDelegate
-//        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        navigationItem.searchController = searchController
-//        definesPresentationContext = true
-//    }
-//
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filterContentForSearchText(searchController.searchBar.text!)
-//    }
-//
-//    private func filterContentForSearchText(_ searchText: String) {
-//
-//        let request : NSFetchRequest<Category> = Category.fetchRequest()
-//
-//        if searchText == "" {
-//            loadItems(with: request)
-//        } else {
-//            // predicate specifies how we want to query our database
-//            let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
-//            request.predicate = predicate
-//            // sort the data
-//            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//
-//            loadItems(with: request)
-//        }
-//    }
-//
-//}
+extension CategoryViewController: UISearchResultsUpdating {
+
+    func setUpSearchController() {
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self as? UISearchBarDelegate
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+
+    private func filterContentForSearchText(_ searchText: String) {
+
+        let request : NSFetchRequest<Category> = Category.fetchRequest()
+
+        if searchText == "" {
+            loadItems(with: request)
+        } else {
+            // predicate specifies how we want to query our database
+            let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchText)
+            request.predicate = predicate
+            // sort the data
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+
+            loadItems(with: request)
+        }
+    }
+
+}
