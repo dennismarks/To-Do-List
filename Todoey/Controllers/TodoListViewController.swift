@@ -177,5 +177,4 @@ extension TodoListViewController: UISearchResultsUpdating {
 //            searchBarSearchButtonClicked(searchBar)
 //        }
 //    }
-//
 //}
