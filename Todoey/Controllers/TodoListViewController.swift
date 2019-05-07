@@ -145,6 +145,7 @@ extension TodoListViewController: UISearchResultsUpdating {
         if searchText == "" {
             loadItems()
         } else {
+            loadItems()
             toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchText)
             self.tableView.reloadData()
         }

@@ -113,18 +113,18 @@ extension CategoryViewController: UISearchResultsUpdating {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
+    
 
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 
     private func filterContentForSearchText(_ searchText: String) {
-//        if searchText ==
+        
         if searchText == "" {
             loadCategory()
         } else {
-//            print("HERE2")
-            print(searchText)
+            loadCategory()
             categoryArray = categoryArray?.filter("name CONTAINS[cd] %@", searchText)
             self.tableView.reloadData()
         }
