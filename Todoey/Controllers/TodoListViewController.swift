@@ -13,7 +13,7 @@ class TodoListViewController: UITableViewController {
     
     let realm = try! Realm()
     
-    var toDoItems: List<Item>?
+    var toDoItems: Results<Item>?
     var selectedCategory : Category? {
         didSet {
             loadItems()
@@ -23,6 +23,7 @@ class TodoListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpSearchController()
     }
     
     // MARK: - TableView Datasource Methods
@@ -86,6 +87,7 @@ class TodoListViewController: UITableViewController {
                     try self.realm.write {
                         let newItem = Item()
                         newItem.title = textField.text!
+                        newItem.dateCreated = Date()
                         currentCategory.items.append(newItem)
                         // add is not needed BC we're using currentCategory's items instead; theya re connected
                         // self.realm.add(newItem)
@@ -115,44 +117,38 @@ class TodoListViewController: UITableViewController {
     // MARK: - Model Manipulation Methods
     
     func loadItems() {
-        toDoItems = selectedCategory?.items
+        toDoItems = selectedCategory?.items.filter("TRUEPREDICATE")
         tableView.reloadData()
     }
-
+    
 }
     
 //}
 
-//extension TodoListViewController: UISearchResultsUpdating {
-//    
-//    func setUpSearchController() {
-//        navigationItem.searchController = searchController
-//        searchController.searchBar.delegate = self as? UISearchBarDelegate
-//        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        navigationItem.searchController = searchController
-//        definesPresentationContext = true
-//    }
+extension TodoListViewController: UISearchResultsUpdating {
     
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filterContentForSearchText(searchController.searchBar.text!)
-//    }
+    func setUpSearchController() {
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self as? UISearchBarDelegate
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
     
-//    private func filterContentForSearchText(_ searchText: String) {
-//
-//        let request : NSFetchRequest<Item> = Item.fetchRequest()
-//
-//        if searchText == "" {
-//            loadItems(with: request)
-//        } else {
-//            // predicate specifies how we want to query our database
-//            let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
-//
-//            // sort the data
-//            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//
-//            loadItems(with: request, predicate: predicate)
-//        }
-//    }
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
     
-//}
+    private func filterContentForSearchText(_ searchText: String) {
+        
+        if searchText == "" {
+            loadItems()
+        } else {
+            toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchText)
+            self.tableView.reloadData()
+        }
+        
+    }
+    
+}

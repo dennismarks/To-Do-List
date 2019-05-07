@@ -21,7 +21,7 @@ class CategoryViewController: UITableViewController {
 //        print(Realm.Configuration.defaultConfiguration.fileURL)
         
         loadCategory()
-//        setUpSearchController()
+        setUpSearchController()
     }
 
     // MARK: - Table view data source
@@ -103,36 +103,31 @@ class CategoryViewController: UITableViewController {
 }
 
 
-//extension CategoryViewController: UISearchResultsUpdating {
-//
-//    func setUpSearchController() {
-//        navigationItem.searchController = searchController
-//        searchController.searchBar.delegate = self as? UISearchBarDelegate
-//        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        navigationItem.searchController = searchController
-//        definesPresentationContext = true
-//    }
+extension CategoryViewController: UISearchResultsUpdating {
 
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filterContentForSearchText(searchController.searchBar.text!)
-//    }
+    func setUpSearchController() {
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self as? UISearchBarDelegate
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
 
-//    private func filterContentForSearchText(_ searchText: String) {
-//
-//        let request : NSFetchRequest<Category> = Category.fetchRequest()
-//
-//        if searchText == "" {
-//            loadItems(with: request)
-//        } else {
-//            // predicate specifies how we want to query our database
-//            let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchText)
-//            request.predicate = predicate
-//            // sort the data
-//            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-//
-//            loadItems(with: request)
-//        }
-//    }
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 
-//}
+    private func filterContentForSearchText(_ searchText: String) {
+//        if searchText ==
+        if searchText == "" {
+            loadCategory()
+        } else {
+//            print("HERE2")
+            print(searchText)
+            categoryArray = categoryArray?.filter("name CONTAINS[cd] %@", searchText)
+            self.tableView.reloadData()
+        }
+    }
+
+}
