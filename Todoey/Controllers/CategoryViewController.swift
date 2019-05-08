@@ -24,7 +24,7 @@ class CategoryViewController: UITableViewController {
         setUpSearchController()
     }
 
-    // MARK: - Table view data source
+    // MARK: - Table View Data Source
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
@@ -37,6 +37,39 @@ class CategoryViewController: UITableViewController {
         // nil coalescing operator - if categoryArray is nil return 1 else count
         return categoryArray?.count ?? 1
     }
+    
+    // MARK: - Table View Delegates
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            
+            if let categoryForDeletion = self.categoryArray?[indexPath.row] {
+                do {
+                    try self.realm.write {
+                        self.realm.delete(categoryForDeletion)
+                    }
+                } catch {
+                    print("Error deleting category \(error)")
+                }
+            }
+            completion(true)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.reloadData()
+            
+        }
+        
+        deleteAction.image = UIImage(named: "delete-icon")
+        deleteAction.backgroundColor = .red
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    
+    // implementation is same as above
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//
+//    }
     
     
     // MARK: – Add New Category
