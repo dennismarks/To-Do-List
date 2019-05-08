@@ -1,4 +1,7 @@
 PODS:
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
   - Realm (3.14.2):
     - Realm/Headers (= 3.14.2)
   - Realm/Headers (3.14.2)
@@ -6,6 +9,7 @@ PODS:
     - Realm (= 3.14.2)
 
 DEPENDENCIES:
+  - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - RealmSwift
 
 SPEC REPOS:
@@ -13,10 +17,20 @@ SPEC REPOS:
     - Realm
     - RealmSwift
 
+EXTERNAL SOURCES:
+  ChameleonFramework:
+    :git: https://github.com/ViccAlexander/Chameleon.git
+
+CHECKOUT OPTIONS:
+  ChameleonFramework:
+    :commit: 6dd284bde21ea2e7f9fd89bc36f40df16e16369d
+    :git: https://github.com/ViccAlexander/Chameleon.git
+
 SPEC CHECKSUMS:
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   Realm: 179c6706e3a49dbfe112e572fd3c03d3169bea35
   RealmSwift: 1797f272fb51c555b764fada32e82159a2c65247
 
-PODFILE CHECKSUM: bc0d294ea1a7a02db2dd9642c4ab42a26b8a3661
+PODFILE CHECKSUM: 46a23c609b9ceb07983a8e03b618be57aad73e41
 
 COCOAPODS: 1.6.1

@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
     
@@ -20,6 +21,7 @@ class CategoryViewController: SwipeTableViewController {
         super.viewDidLoad()
 //        print(Realm.Configuration.defaultConfiguration.fileURL)
         
+        tableView.separatorStyle = .none
         loadCategory()
         setUpSearchController()
     }
@@ -29,6 +31,7 @@ class CategoryViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "Press the + button to add your first category!"
+        cell.backgroundColor = UIColor(hexString: (categoryArray?[indexPath.row].colour)!)
         return cell
     }
 
@@ -73,6 +76,7 @@ class CategoryViewController: SwipeTableViewController {
             
             let newCategory = Category()
             newCategory.name = textField.text!
+            newCategory.colour = UIColor.randomFlat.hexValue()
             
             self.save(category: newCategory)
         }
