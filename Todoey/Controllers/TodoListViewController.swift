@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     
@@ -46,6 +46,23 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return toDoItems?.count ?? 1
     }
+    
+    // MARK: - Table View Delegates
+    
+    override func updateModule(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.toDoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(categoryForDeletion)
+                }
+            } catch {
+                print("Error deleting category \(error)")
+            }
+        }
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        self.tableView.reloadData()
+    }
+    
     
     // MARK: - TableView Delegate Methods
     

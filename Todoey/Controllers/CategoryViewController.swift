@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     
@@ -40,29 +40,19 @@ class CategoryViewController: UITableViewController {
     
     // MARK: - Table View Delegates
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            
-            if let categoryForDeletion = self.categoryArray?[indexPath.row] {
-                do {
-                    try self.realm.write {
-                        self.realm.delete(categoryForDeletion)
-                    }
-                } catch {
-                    print("Error deleting category \(error)")
+    override func updateModule(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.categoryArray?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(categoryForDeletion)
                 }
+            } catch {
+                print("Error deleting category \(error)")
             }
-            completion(true)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.tableView.reloadData()
-            
         }
-        
-        deleteAction.image = UIImage(named: "delete-icon")
-        deleteAction.backgroundColor = .red
-        
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+//        completion(true)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        self.tableView.reloadData()
     }
     
     
